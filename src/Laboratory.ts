@@ -3,6 +3,9 @@ export class Laboratory {
 
   constructor(knownSubstances: string[]) {
     this.knownSubstances = new Set();
+    if (knownSubstances.length === 0) {
+      throw new Error("No substances provided");
+    }
 
     for (const substance of knownSubstances) {
       if (substance === "") {
