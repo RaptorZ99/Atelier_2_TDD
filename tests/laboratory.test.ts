@@ -281,4 +281,18 @@ describe("Laboratory initialization", () => {
     expect(lab.getQuantity("steam")).toBe(0);
     expect(lab.getQuantity("superSteam")).toBe(1);
   });
+
+  it("does not loop on circular reactions", () => {
+    const lab = new Laboratory(["water"], {
+      a: [[1, "b"]],
+      b: [[1, "a"]],
+    });
+
+    lab.add("a", 1);
+
+    const made = lab.make("a", 1);
+
+    expect(made).toBe(1);
+    expect(lab.getQuantity("a")).toBe(1);
+  });
 });
