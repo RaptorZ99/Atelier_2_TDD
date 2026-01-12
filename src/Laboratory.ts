@@ -48,6 +48,9 @@ export class Laboratory {
     if (Number.isNaN(quantity)) {
       throw new Error(`Invalid quantity: ${quantity}`);
     }
+    if (!Number.isFinite(quantity)) {
+      throw new Error(`Invalid quantity: ${quantity}`);
+    }
 
     const current = this.quantities.get(substance) ?? 0;
     this.quantities.set(substance, current + quantity);
