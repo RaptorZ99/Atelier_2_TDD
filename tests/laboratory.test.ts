@@ -71,4 +71,10 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.add("", 1)).toThrow('Invalid substance: ""');
   });
+
+  it("throws when adding a negative quantity", () => {
+    const lab = new Laboratory(["water"]);
+
+    expect(() => lab.add("water", -1)).toThrow("Invalid quantity: -1");
+  });
 });
