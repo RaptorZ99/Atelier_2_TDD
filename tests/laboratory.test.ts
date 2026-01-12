@@ -36,4 +36,10 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.getQuantity("")).toThrow('Invalid substance: ""');
   });
+
+  it("throws when querying with whitespace-only substance name", () => {
+    const lab = new Laboratory(["water"]);
+
+    expect(() => lab.getQuantity("  ")).toThrow('Invalid substance: "  "');
+  });
 });
