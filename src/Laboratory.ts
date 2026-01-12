@@ -39,6 +39,9 @@ export class Laboratory {
     }
 
     for (const product of Object.keys(reactions)) {
+      if (product === "") {
+        throw new Error('Invalid product: ""');
+      }
       if (!this.knownSubstances.has(product)) {
         this.knownSubstances.add(product);
         this.quantities.set(product, 0);
