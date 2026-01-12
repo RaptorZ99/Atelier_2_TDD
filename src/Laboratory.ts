@@ -5,6 +5,9 @@ export class Laboratory {
     this.knownSubstances = new Set();
 
     for (const substance of knownSubstances) {
+      if (substance === "") {
+        throw new Error('Invalid substance: ""');
+      }
       if (this.knownSubstances.has(substance)) {
         throw new Error(`Duplicate substance: ${substance}`);
       }
