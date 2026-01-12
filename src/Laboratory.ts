@@ -50,6 +50,9 @@ export class Laboratory {
       }
       for (const [amount, ingredient] of reactions[product] ?? []) {
         this.validateQuantity(amount);
+        if (ingredient === "") {
+          throw new Error('Invalid ingredient: ""');
+        }
         if (!this.knownSubstances.has(ingredient)) {
           throw new Error(`Unknown ingredient: ${ingredient}`);
         }
