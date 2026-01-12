@@ -295,4 +295,27 @@ describe("Laboratory initialization", () => {
     expect(made).toBe(1);
     expect(lab.getQuantity("a")).toBe(1);
   });
+
+  it("handles the circular example with partial existing stock", () => {
+    const lab = new Laboratory(["B", "D"], {
+      A: [
+        [1, "B"],
+        [1, "C"],
+      ],
+      C: [
+        [0.2, "A"],
+        [1, "D"],
+      ],
+    });
+
+    lab.add("B", 1);
+    lab.add("C", 0.5);
+    lab.add("A", 0.1);
+    lab.add("D", 0.5);
+
+    const made = lab.make("A", 1);
+
+    expect(made).toBe(1);
+    expect(lab.getQuantity("A")).toBe(1);
+  });
 });
