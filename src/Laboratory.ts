@@ -1,3 +1,5 @@
+type ReactionMap = Record<string, Array<[number, string]>>;
+
 export class Laboratory {
   private knownSubstances: Set<string>;
   private quantities: Map<string, number>;
@@ -20,7 +22,7 @@ export class Laboratory {
     }
   }
 
-  constructor(knownSubstances: string[]) {
+  constructor(knownSubstances: string[], reactions: ReactionMap = {}) {
     this.knownSubstances = new Set();
     this.quantities = new Map();
     if (knownSubstances.length === 0) {
@@ -34,6 +36,13 @@ export class Laboratory {
       }
       this.knownSubstances.add(substance);
       this.quantities.set(substance, 0);
+    }
+
+    for (const product of Object.keys(reactions)) {
+      if (!this.knownSubstances.has(product)) {
+        this.knownSubstances.add(product);
+        this.quantities.set(product, 0);
+      }
     }
   }
 
