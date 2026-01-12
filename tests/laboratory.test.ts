@@ -250,4 +250,19 @@ describe("Laboratory initialization", () => {
     expect(made).toBe(0);
     expect(lab.getQuantity("water")).toBe(1);
   });
+
+  it("makes a product when ingredients are other products in stock", () => {
+    const lab = new Laboratory(["water"], {
+      steam: [[1, "water"]],
+      superSteam: [[2, "steam"]],
+    });
+
+    lab.add("steam", 3);
+
+    const made = lab.make("superSteam", 2);
+
+    expect(made).toBe(1.5);
+    expect(lab.getQuantity("steam")).toBe(0);
+    expect(lab.getQuantity("superSteam")).toBe(1.5);
+  });
 });
