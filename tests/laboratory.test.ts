@@ -42,4 +42,12 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.getQuantity("  ")).toThrow('Invalid substance: "  "');
   });
+
+  it("adds quantity for a known substance", () => {
+    const lab = new Laboratory(["water"]);
+
+    lab.add("water", 1.5);
+
+    expect(lab.getQuantity("water")).toBe(1.5);
+  });
 });
