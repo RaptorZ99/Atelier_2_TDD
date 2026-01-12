@@ -22,4 +22,8 @@ describe("Laboratory initialization", () => {
   it("throws when initialized with an empty substance name", () => {
     expect(() => new Laboratory([""])).toThrow('Invalid substance: ""');
   });
+
+  it("throws when initialized with a whitespace-only substance", () => {
+    expect(() => new Laboratory(["   "])).toThrow('Invalid substance: "   "');
+  });
 });
