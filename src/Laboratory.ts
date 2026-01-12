@@ -11,6 +11,15 @@ export class Laboratory {
     }
   }
 
+  private validateQuantity(quantity: number): void {
+    if (quantity < 0) {
+      throw new Error(`Invalid quantity: ${quantity}`);
+    }
+    if (!Number.isFinite(quantity)) {
+      throw new Error(`Invalid quantity: ${quantity}`);
+    }
+  }
+
   constructor(knownSubstances: string[]) {
     this.knownSubstances = new Set();
     this.quantities = new Map();
@@ -42,15 +51,7 @@ export class Laboratory {
     if (!this.knownSubstances.has(substance)) {
       throw new Error(`Unknown substance: ${substance}`);
     }
-    if (quantity < 0) {
-      throw new Error(`Invalid quantity: ${quantity}`);
-    }
-    if (Number.isNaN(quantity)) {
-      throw new Error(`Invalid quantity: ${quantity}`);
-    }
-    if (!Number.isFinite(quantity)) {
-      throw new Error(`Invalid quantity: ${quantity}`);
-    }
+    this.validateQuantity(quantity);
 
     const current = this.quantities.get(substance) ?? 0;
     this.quantities.set(substance, current + quantity);
