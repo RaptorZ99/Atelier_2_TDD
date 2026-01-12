@@ -85,4 +85,12 @@ describe("Laboratory initialization", () => {
       "Invalid quantity: NaN"
     );
   });
+
+  it("throws when adding infinite quantity", () => {
+    const lab = new Laboratory(["water"]);
+
+    expect(() => lab.add("water", Number.POSITIVE_INFINITY)).toThrow(
+      "Invalid quantity: Infinity"
+    );
+  });
 });
