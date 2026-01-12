@@ -65,4 +65,10 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.add("salt", 1)).toThrow("Unknown substance: salt");
   });
+
+  it("throws when adding with empty substance name", () => {
+    const lab = new Laboratory(["water"]);
+
+    expect(() => lab.add("", 1)).toThrow('Invalid substance: ""');
+  });
 });
