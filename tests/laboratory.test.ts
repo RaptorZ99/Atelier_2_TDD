@@ -193,4 +193,10 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.make("", 1)).toThrow('Invalid substance: ""');
   });
+
+  it("throws when making with whitespace-only product name", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    expect(() => lab.make("   ", 1)).toThrow('Invalid substance: "   "');
+  });
 });
