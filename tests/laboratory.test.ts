@@ -169,4 +169,16 @@ describe("Laboratory initialization", () => {
     expect(lab.getQuantity("water")).toBe(1);
     expect(lab.getQuantity("steam")).toBe(1);
   });
+
+  it("makes as much as possible when stock is insufficient", () => {
+    const lab = new Laboratory(["water"], { steam: [[2, "water"]] });
+
+    lab.add("water", 3);
+
+    const made = lab.make("steam", 2);
+
+    expect(made).toBe(1.5);
+    expect(lab.getQuantity("water")).toBe(0);
+    expect(lab.getQuantity("steam")).toBe(1.5);
+  });
 });
