@@ -230,4 +230,13 @@ describe("Laboratory initialization", () => {
 
     expect(lab.getQuantity("superSteam")).toBe(0);
   });
+
+  it("allows reactions to reference products defined later", () => {
+    const lab = new Laboratory(["water"], {
+      superSteam: [[1, "steam"]],
+      steam: [[1, "water"]],
+    });
+
+    expect(lab.getQuantity("superSteam")).toBe(0);
+  });
 });
