@@ -22,6 +22,15 @@ export class Laboratory {
     }
   }
 
+  private validateIngredientName(ingredient: string): void {
+    if (ingredient === "") {
+      throw new Error('Invalid ingredient: ""');
+    }
+    if (ingredient.trim() === "") {
+      throw new Error(`Invalid ingredient: "${ingredient}"`);
+    }
+  }
+
   private reactions: ReactionMap;
 
   constructor(knownSubstances: string[], reactions: ReactionMap = {}) {
@@ -60,12 +69,7 @@ export class Laboratory {
     for (const product of reactionProducts) {
       for (const [amount, ingredient] of reactions[product] ?? []) {
         this.validateQuantity(amount);
-        if (ingredient === "") {
-          throw new Error('Invalid ingredient: ""');
-        }
-        if (ingredient.trim() === "") {
-          throw new Error(`Invalid ingredient: "${ingredient}"`);
-        }
+        this.validateIngredientName(ingredient);
         if (!knownWithProducts.has(ingredient)) {
           throw new Error(`Unknown ingredient: ${ingredient}`);
         }
