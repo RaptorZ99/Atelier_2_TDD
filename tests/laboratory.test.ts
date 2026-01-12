@@ -129,4 +129,12 @@ describe("Laboratory initialization", () => {
       new Laboratory(["water"], { steam: [[Number.NaN, "water"]] })
     ).toThrow("Invalid quantity: NaN");
   });
+
+  it("throws when a reaction ingredient quantity is infinite", () => {
+    expect(() =>
+      new Laboratory(["water"], {
+        steam: [[Number.POSITIVE_INFINITY, "water"]],
+      })
+    ).toThrow("Invalid quantity: Infinity");
+  });
 });
