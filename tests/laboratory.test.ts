@@ -137,4 +137,10 @@ describe("Laboratory initialization", () => {
       })
     ).toThrow("Invalid quantity: Infinity");
   });
+
+  it("throws when a reaction ingredient name is empty", () => {
+    expect(() =>
+      new Laboratory(["water"], { steam: [[1, ""]] })
+    ).toThrow('Invalid ingredient: ""');
+  });
 });
