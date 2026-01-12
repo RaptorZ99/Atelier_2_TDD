@@ -124,22 +124,8 @@ export class Laboratory {
     stack.add(product);
 
     try {
-      for (const [amount, ingredient] of reaction) {
-        const required = amount * quantity;
-        const available = this.quantities.get(ingredient) ?? 0;
-        if (available < required && this.reactions[ingredient]) {
-          this.makeInternal(ingredient, required - available, stack);
-        }
-      }
-
-      let maxPossible = Infinity;
-      for (const [amount, ingredient] of reaction) {
-        const available = this.quantities.get(ingredient) ?? 0;
-        const possible = available / amount;
-        if (possible < maxPossible) {
-          maxPossible = possible;
-        }
-      }
+      this.ensureIngredientsAvailable(reaction, quantity, stack);
+      const maxPossible = this.computeMaxPossible(reaction);
 
       const actual = Math.min(quantity, maxPossible);
       if (actual <= 0) {
@@ -158,5 +144,31 @@ export class Laboratory {
     } finally {
       stack.delete(product);
     }
+  }
+
+  private ensureIngredientsAvailable(
+    reaction: Array<[number, string]>,
+    quantity: number,
+    stack: Set<string>
+  ): void {
+    for (const [amount, ingredient] of reaction) {
+      const required = amount * quantity;
+      const available = this.quantities.get(ingredient) ?? 0;
+      if (available < required && this.reactions[ingredient]) {
+        this.makeInternal(ingredient, required - available, stack);
+      }
+    }
+  }
+
+  private computeMaxPossible(reaction: Array<[number, string]>): number {
+    let maxPossible = Infinity;
+    for (const [amount, ingredient] of reaction) {
+      const available = this.quantities.get(ingredient) ?? 0;
+      const possible = available / amount;
+      if (possible < maxPossible) {
+        maxPossible = possible;
+      }
+    }
+    return maxPossible;
   }
 }
