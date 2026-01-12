@@ -181,4 +181,10 @@ describe("Laboratory initialization", () => {
     expect(lab.getQuantity("water")).toBe(0);
     expect(lab.getQuantity("steam")).toBe(1.5);
   });
+
+  it("throws when making an unknown product", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    expect(() => lab.make("unknown", 1)).toThrow("Unknown product: unknown");
+  });
 });
