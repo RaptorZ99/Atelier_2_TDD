@@ -12,4 +12,10 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.getQuantity("salt")).toThrow("Unknown substance: salt");
   });
+
+  it("throws when initialized with duplicate substances", () => {
+    expect(() => new Laboratory(["water", "water"])).toThrow(
+      "Duplicate substance: water"
+    );
+  });
 });
