@@ -99,4 +99,10 @@ describe("Laboratory initialization", () => {
 
     expect(lab.getQuantity("steam")).toBe(0);
   });
+
+  it("throws when reaction product name is empty", () => {
+    expect(() => new Laboratory(["water"], { "": [[1, "water"]] })).toThrow(
+      'Invalid product: ""'
+    );
+  });
 });
