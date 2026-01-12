@@ -30,4 +30,10 @@ describe("Laboratory initialization", () => {
   it("throws when initialized with an empty list", () => {
     expect(() => new Laboratory([])).toThrow("No substances provided");
   });
+
+  it("throws when querying with empty substance name", () => {
+    const lab = new Laboratory(["water"]);
+
+    expect(() => lab.getQuantity("")).toThrow('Invalid substance: ""');
+  });
 });
