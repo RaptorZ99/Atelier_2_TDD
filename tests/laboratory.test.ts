@@ -111,4 +111,10 @@ describe("Laboratory initialization", () => {
       new Laboratory(["water"], { "   ": [[1, "water"]] })
     ).toThrow('Invalid product: "   "');
   });
+
+  it("throws when a reaction ingredient is unknown", () => {
+    expect(() =>
+      new Laboratory(["water"], { steam: [[1, "unknown"]] })
+    ).toThrow("Unknown ingredient: unknown");
+  });
 });
