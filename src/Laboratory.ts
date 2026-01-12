@@ -53,6 +53,9 @@ export class Laboratory {
         if (ingredient === "") {
           throw new Error('Invalid ingredient: ""');
         }
+        if (ingredient.trim() === "") {
+          throw new Error(`Invalid ingredient: "${ingredient}"`);
+        }
         if (!this.knownSubstances.has(ingredient)) {
           throw new Error(`Unknown ingredient: ${ingredient}`);
         }

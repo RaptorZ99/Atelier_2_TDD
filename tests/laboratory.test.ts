@@ -143,4 +143,10 @@ describe("Laboratory initialization", () => {
       new Laboratory(["water"], { steam: [[1, ""]] })
     ).toThrow('Invalid ingredient: ""');
   });
+
+  it("throws when a reaction ingredient name is whitespace-only", () => {
+    expect(() =>
+      new Laboratory(["water"], { steam: [[1, "   "]] })
+    ).toThrow('Invalid ingredient: "   "');
+  });
 });
