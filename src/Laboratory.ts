@@ -22,9 +22,12 @@ export class Laboratory {
     }
   }
 
+  private reactions: ReactionMap;
+
   constructor(knownSubstances: string[], reactions: ReactionMap = {}) {
     this.knownSubstances = new Set();
     this.quantities = new Map();
+    this.reactions = reactions;
     if (knownSubstances.length === 0) {
       throw new Error("No substances provided");
     }
@@ -44,6 +47,12 @@ export class Laboratory {
       }
       if (product.trim() === "") {
         throw new Error(`Invalid product: "${product}"`);
+      }
+      for (const [amount, ingredient] of reactions[product] ?? []) {
+        void amount;
+        if (!this.knownSubstances.has(ingredient)) {
+          throw new Error(`Unknown ingredient: ${ingredient}`);
+        }
       }
       if (!this.knownSubstances.has(product)) {
         this.knownSubstances.add(product);
