@@ -205,4 +205,12 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.make("steam", -1)).toThrow("Invalid quantity: -1");
   });
+
+  it("throws when making NaN quantity", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    expect(() => lab.make("steam", Number.NaN)).toThrow(
+      "Invalid quantity: NaN"
+    );
+  });
 });
