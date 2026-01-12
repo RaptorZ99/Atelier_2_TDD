@@ -296,6 +296,19 @@ describe("Laboratory initialization", () => {
     expect(lab.getQuantity("a")).toBe(1);
   });
 
+  it("returns 0 when circular dependency blocks production", () => {
+    const lab = new Laboratory(["water"], {
+      a: [[1, "b"]],
+      b: [[1, "a"]],
+    });
+
+    const made = lab.make("a", 1);
+
+    expect(made).toBe(0);
+    expect(lab.getQuantity("a")).toBe(0);
+    expect(lab.getQuantity("b")).toBe(0);
+  });
+
   it("handles the circular example with partial existing stock", () => {
     const lab = new Laboratory(["B", "D"], {
       A: [
