@@ -18,4 +18,8 @@ describe("Laboratory initialization", () => {
       "Duplicate substance: water"
     );
   });
+
+  it("throws when initialized with an empty substance name", () => {
+    expect(() => new Laboratory([""])).toThrow('Invalid substance: ""');
+  });
 });
