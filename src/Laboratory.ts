@@ -41,13 +41,23 @@ export class Laboratory {
       this.quantities.set(substance, 0);
     }
 
-    for (const product of Object.keys(reactions)) {
+    const reactionProducts = Object.keys(reactions);
+    for (const product of reactionProducts) {
       if (product === "") {
         throw new Error('Invalid product: ""');
       }
       if (product.trim() === "") {
         throw new Error(`Invalid product: "${product}"`);
       }
+      if (!this.knownSubstances.has(product)) {
+        this.knownSubstances.add(product);
+        this.quantities.set(product, 0);
+      }
+    }
+
+    const knownWithProducts = new Set([...this.knownSubstances]);
+
+    for (const product of reactionProducts) {
       for (const [amount, ingredient] of reactions[product] ?? []) {
         this.validateQuantity(amount);
         if (ingredient === "") {
@@ -56,13 +66,9 @@ export class Laboratory {
         if (ingredient.trim() === "") {
           throw new Error(`Invalid ingredient: "${ingredient}"`);
         }
-        if (!this.knownSubstances.has(ingredient)) {
+        if (!knownWithProducts.has(ingredient)) {
           throw new Error(`Unknown ingredient: ${ingredient}`);
         }
-      }
-      if (!this.knownSubstances.has(product)) {
-        this.knownSubstances.add(product);
-        this.quantities.set(product, 0);
       }
     }
   }
