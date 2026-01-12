@@ -105,4 +105,10 @@ describe("Laboratory initialization", () => {
       'Invalid product: ""'
     );
   });
+
+  it("throws when reaction product name is whitespace-only", () => {
+    expect(() =>
+      new Laboratory(["water"], { "   ": [[1, "water"]] })
+    ).toThrow('Invalid product: "   "');
+  });
 });
