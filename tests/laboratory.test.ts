@@ -239,4 +239,15 @@ describe("Laboratory initialization", () => {
 
     expect(lab.getQuantity("superSteam")).toBe(0);
   });
+
+  it("returns 0 and changes nothing when no reaction exists", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    lab.add("water", 1);
+
+    const made = lab.make("water", 1);
+
+    expect(made).toBe(0);
+    expect(lab.getQuantity("water")).toBe(1);
+  });
 });
