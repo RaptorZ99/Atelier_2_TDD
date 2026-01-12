@@ -1,6 +1,15 @@
 export class Laboratory {
   private knownSubstances: Set<string>;
 
+  private validateSubstanceName(substance: string): void {
+    if (substance === "") {
+      throw new Error('Invalid substance: ""');
+    }
+    if (substance.trim() === "") {
+      throw new Error(`Invalid substance: "${substance}"`);
+    }
+  }
+
   constructor(knownSubstances: string[]) {
     this.knownSubstances = new Set();
     if (knownSubstances.length === 0) {
@@ -8,12 +17,7 @@ export class Laboratory {
     }
 
     for (const substance of knownSubstances) {
-      if (substance === "") {
-        throw new Error('Invalid substance: ""');
-      }
-      if (substance.trim() === "") {
-        throw new Error(`Invalid substance: "${substance}"`);
-      }
+      this.validateSubstanceName(substance);
       if (this.knownSubstances.has(substance)) {
         throw new Error(`Duplicate substance: ${substance}`);
       }
@@ -22,12 +26,7 @@ export class Laboratory {
   }
 
   getQuantity(substance: string): number {
-    if (substance === "") {
-      throw new Error('Invalid substance: ""');
-    }
-    if (substance.trim() === "") {
-      throw new Error(`Invalid substance: "${substance}"`);
-    }
+    this.validateSubstanceName(substance);
     if (!this.knownSubstances.has(substance)) {
       throw new Error(`Unknown substance: ${substance}`);
     }
