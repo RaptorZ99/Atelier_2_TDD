@@ -42,6 +42,9 @@ export class Laboratory {
     if (!this.knownSubstances.has(substance)) {
       throw new Error(`Unknown substance: ${substance}`);
     }
+    if (quantity < 0) {
+      throw new Error(`Invalid quantity: ${quantity}`);
+    }
 
     const current = this.quantities.get(substance) ?? 0;
     this.quantities.set(substance, current + quantity);
