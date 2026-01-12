@@ -86,4 +86,41 @@ export class Laboratory {
     const current = this.quantities.get(substance) ?? 0;
     this.quantities.set(substance, current + quantity);
   }
+
+  make(product: string, quantity: number): number {
+    this.validateSubstanceName(product);
+    if (!this.knownSubstances.has(product)) {
+      throw new Error(`Unknown product: ${product}`);
+    }
+    this.validateQuantity(quantity);
+
+    const reaction = this.reactions[product];
+    if (!reaction) {
+      return 0;
+    }
+
+    let maxPossible = Infinity;
+    for (const [amount, ingredient] of reaction) {
+      const available = this.quantities.get(ingredient) ?? 0;
+      const possible = available / amount;
+      if (possible < maxPossible) {
+        maxPossible = possible;
+      }
+    }
+
+    const actual = Math.min(quantity, maxPossible);
+    if (actual <= 0) {
+      return 0;
+    }
+
+    for (const [amount, ingredient] of reaction) {
+      const available = this.quantities.get(ingredient) ?? 0;
+      this.quantities.set(ingredient, available - amount * actual);
+    }
+
+    const currentProduct = this.quantities.get(product) ?? 0;
+    this.quantities.set(product, currentProduct + actual);
+
+    return actual;
+  }
 }
