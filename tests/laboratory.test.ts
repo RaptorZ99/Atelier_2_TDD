@@ -265,4 +265,20 @@ describe("Laboratory initialization", () => {
     expect(lab.getQuantity("steam")).toBe(0);
     expect(lab.getQuantity("superSteam")).toBe(1.5);
   });
+
+  it("makes a product by producing intermediate ingredients", () => {
+    const lab = new Laboratory(["water"], {
+      steam: [[1, "water"]],
+      superSteam: [[2, "steam"]],
+    });
+
+    lab.add("water", 2);
+
+    const made = lab.make("superSteam", 1);
+
+    expect(made).toBe(1);
+    expect(lab.getQuantity("water")).toBe(0);
+    expect(lab.getQuantity("steam")).toBe(0);
+    expect(lab.getQuantity("superSteam")).toBe(1);
+  });
 });
