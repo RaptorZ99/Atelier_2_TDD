@@ -1,5 +1,6 @@
 export class Laboratory {
   private knownSubstances: Set<string>;
+  private quantities: Map<string, number>;
 
   private validateSubstanceName(substance: string): void {
     if (substance === "") {
@@ -12,6 +13,7 @@ export class Laboratory {
 
   constructor(knownSubstances: string[]) {
     this.knownSubstances = new Set();
+    this.quantities = new Map();
     if (knownSubstances.length === 0) {
       throw new Error("No substances provided");
     }
@@ -22,6 +24,7 @@ export class Laboratory {
         throw new Error(`Duplicate substance: ${substance}`);
       }
       this.knownSubstances.add(substance);
+      this.quantities.set(substance, 0);
     }
   }
 
@@ -31,6 +34,16 @@ export class Laboratory {
       throw new Error(`Unknown substance: ${substance}`);
     }
 
-    return 0;
+    return this.quantities.get(substance) ?? 0;
+  }
+
+  add(substance: string, quantity: number): void {
+    this.validateSubstanceName(substance);
+    if (!this.knownSubstances.has(substance)) {
+      throw new Error(`Unknown substance: ${substance}`);
+    }
+
+    const current = this.quantities.get(substance) ?? 0;
+    this.quantities.set(substance, current + quantity);
   }
 }
