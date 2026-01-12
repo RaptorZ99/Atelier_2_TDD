@@ -50,4 +50,13 @@ describe("Laboratory initialization", () => {
 
     expect(lab.getQuantity("water")).toBe(1.5);
   });
+
+  it("adds quantity cumulatively", () => {
+    const lab = new Laboratory(["water"]);
+
+    lab.add("water", 1.5);
+    lab.add("water", 0.5);
+
+    expect(lab.getQuantity("water")).toBe(2);
+  });
 });
