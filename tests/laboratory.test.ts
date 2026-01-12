@@ -187,4 +187,10 @@ describe("Laboratory initialization", () => {
 
     expect(() => lab.make("unknown", 1)).toThrow("Unknown product: unknown");
   });
+
+  it("throws when making with empty product name", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    expect(() => lab.make("", 1)).toThrow('Invalid substance: ""');
+  });
 });
