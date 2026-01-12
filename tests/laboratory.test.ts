@@ -149,4 +149,12 @@ describe("Laboratory initialization", () => {
       new Laboratory(["water"], { steam: [[1, "   "]] })
     ).toThrow('Invalid ingredient: "   "');
   });
+
+  it("adds quantity for a product", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    lab.add("steam", 2);
+
+    expect(lab.getQuantity("steam")).toBe(2);
+  });
 });
