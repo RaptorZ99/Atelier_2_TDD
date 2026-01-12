@@ -22,6 +22,9 @@ export class Laboratory {
   }
 
   getQuantity(substance: string): number {
+    if (substance === "") {
+      throw new Error('Invalid substance: ""');
+    }
     if (!this.knownSubstances.has(substance)) {
       throw new Error(`Unknown substance: ${substance}`);
     }
