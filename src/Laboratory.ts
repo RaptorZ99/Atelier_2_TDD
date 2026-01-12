@@ -104,33 +104,59 @@ export class Laboratory {
     }
     this.validateQuantity(quantity);
 
+    return this.makeInternal(product, quantity, new Set());
+  }
+
+  private makeInternal(
+    product: string,
+    quantity: number,
+    stack: Set<string>
+  ): number {
+    if (stack.has(product)) {
+      return 0;
+    }
+
     const reaction = this.reactions[product];
     if (!reaction) {
       return 0;
     }
 
-    let maxPossible = Infinity;
-    for (const [amount, ingredient] of reaction) {
-      const available = this.quantities.get(ingredient) ?? 0;
-      const possible = available / amount;
-      if (possible < maxPossible) {
-        maxPossible = possible;
+    stack.add(product);
+
+    try {
+      for (const [amount, ingredient] of reaction) {
+        const required = amount * quantity;
+        const available = this.quantities.get(ingredient) ?? 0;
+        if (available < required && this.reactions[ingredient]) {
+          this.makeInternal(ingredient, required - available, stack);
+        }
       }
+
+      let maxPossible = Infinity;
+      for (const [amount, ingredient] of reaction) {
+        const available = this.quantities.get(ingredient) ?? 0;
+        const possible = available / amount;
+        if (possible < maxPossible) {
+          maxPossible = possible;
+        }
+      }
+
+      const actual = Math.min(quantity, maxPossible);
+      if (actual <= 0) {
+        return 0;
+      }
+
+      for (const [amount, ingredient] of reaction) {
+        const available = this.quantities.get(ingredient) ?? 0;
+        this.quantities.set(ingredient, available - amount * actual);
+      }
+
+      const currentProduct = this.quantities.get(product) ?? 0;
+      this.quantities.set(product, currentProduct + actual);
+
+      return actual;
+    } finally {
+      stack.delete(product);
     }
-
-    const actual = Math.min(quantity, maxPossible);
-    if (actual <= 0) {
-      return 0;
-    }
-
-    for (const [amount, ingredient] of reaction) {
-      const available = this.quantities.get(ingredient) ?? 0;
-      this.quantities.set(ingredient, available - amount * actual);
-    }
-
-    const currentProduct = this.quantities.get(product) ?? 0;
-    this.quantities.set(product, currentProduct + actual);
-
-    return actual;
   }
 }
