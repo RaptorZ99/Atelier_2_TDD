@@ -59,4 +59,10 @@ describe("Laboratory initialization", () => {
 
     expect(lab.getQuantity("water")).toBe(2);
   });
+
+  it("throws when adding unknown substance", () => {
+    const lab = new Laboratory(["water"]);
+
+    expect(() => lab.add("salt", 1)).toThrow("Unknown substance: salt");
+  });
 });
