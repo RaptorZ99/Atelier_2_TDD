@@ -49,7 +49,7 @@ export class Laboratory {
         throw new Error(`Invalid product: "${product}"`);
       }
       for (const [amount, ingredient] of reactions[product] ?? []) {
-        void amount;
+        this.validateQuantity(amount);
         if (!this.knownSubstances.has(ingredient)) {
           throw new Error(`Unknown ingredient: ${ingredient}`);
         }
