@@ -93,4 +93,10 @@ describe("Laboratory initialization", () => {
       "Invalid quantity: Infinity"
     );
   });
+
+  it("treats reaction products as known items", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    expect(lab.getQuantity("steam")).toBe(0);
+  });
 });
