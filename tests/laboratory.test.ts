@@ -213,4 +213,21 @@ describe("Laboratory initialization", () => {
       "Invalid quantity: NaN"
     );
   });
+
+  it("throws when making infinite quantity", () => {
+    const lab = new Laboratory(["water"], { steam: [[1, "water"]] });
+
+    expect(() => lab.make("steam", Number.POSITIVE_INFINITY)).toThrow(
+      "Invalid quantity: Infinity"
+    );
+  });
+
+  it("allows reactions to use other products as ingredients", () => {
+    const lab = new Laboratory(["water"], {
+      steam: [[1, "water"]],
+      superSteam: [[1, "steam"]],
+    });
+
+    expect(lab.getQuantity("superSteam")).toBe(0);
+  });
 });
