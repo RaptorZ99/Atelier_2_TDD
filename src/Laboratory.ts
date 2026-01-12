@@ -13,6 +13,15 @@ export class Laboratory {
     }
   }
 
+  private validateProductName(product: string): void {
+    if (product === "") {
+      throw new Error('Invalid product: ""');
+    }
+    if (product.trim() === "") {
+      throw new Error(`Invalid product: "${product}"`);
+    }
+  }
+
   private validateQuantity(quantity: number): void {
     if (quantity < 0) {
       throw new Error(`Invalid quantity: ${quantity}`);
@@ -52,12 +61,7 @@ export class Laboratory {
 
     const reactionProducts = Object.keys(reactions);
     for (const product of reactionProducts) {
-      if (product === "") {
-        throw new Error('Invalid product: ""');
-      }
-      if (product.trim() === "") {
-        throw new Error(`Invalid product: "${product}"`);
-      }
+      this.validateProductName(product);
       if (!this.knownSubstances.has(product)) {
         this.knownSubstances.add(product);
         this.quantities.set(product, 0);
