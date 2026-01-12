@@ -71,7 +71,7 @@ export class Laboratory {
     const knownWithProducts = new Set([...this.knownSubstances]);
 
     for (const product of reactionProducts) {
-      for (const [amount, ingredient] of reactions[product] ?? []) {
+      for (const [amount, ingredient] of reactions[product]) {
         this.validateQuantity(amount);
         this.validateIngredientName(ingredient);
         if (!knownWithProducts.has(ingredient)) {
@@ -87,7 +87,7 @@ export class Laboratory {
       throw new Error(`Unknown substance: ${substance}`);
     }
 
-    return this.quantities.get(substance) ?? 0;
+    return this.quantities.get(substance)!;
   }
 
   add(substance: string, quantity: number): void {
@@ -97,7 +97,7 @@ export class Laboratory {
     }
     this.validateQuantity(quantity);
 
-    const current = this.quantities.get(substance) ?? 0;
+    const current = this.quantities.get(substance)!;
     this.quantities.set(substance, current + quantity);
   }
 
@@ -137,11 +137,11 @@ export class Laboratory {
       }
 
       for (const [amount, ingredient] of reaction) {
-        const available = this.quantities.get(ingredient) ?? 0;
+        const available = this.quantities.get(ingredient)!;
         this.quantities.set(ingredient, available - amount * actual);
       }
 
-      const currentProduct = this.quantities.get(product) ?? 0;
+      const currentProduct = this.quantities.get(product)!;
       this.quantities.set(product, currentProduct + actual);
 
       return actual;
@@ -157,7 +157,7 @@ export class Laboratory {
   ): void {
     for (const [amount, ingredient] of reaction) {
       const required = amount * quantity;
-      const available = this.quantities.get(ingredient) ?? 0;
+      const available = this.quantities.get(ingredient)!;
       if (available < required && this.reactions[ingredient]) {
         this.makeInternal(ingredient, required - available, stack);
       }
@@ -167,7 +167,7 @@ export class Laboratory {
   private computeMaxPossible(reaction: Array<[number, string]>): number {
     let maxPossible = Infinity;
     for (const [amount, ingredient] of reaction) {
-      const available = this.quantities.get(ingredient) ?? 0;
+      const available = this.quantities.get(ingredient)!;
       const possible = available / amount;
       if (possible < maxPossible) {
         maxPossible = possible;
