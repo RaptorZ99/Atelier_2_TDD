@@ -42,6 +42,9 @@ export class Laboratory {
       if (product === "") {
         throw new Error('Invalid product: ""');
       }
+      if (product.trim() === "") {
+        throw new Error(`Invalid product: "${product}"`);
+      }
       if (!this.knownSubstances.has(product)) {
         this.knownSubstances.add(product);
         this.quantities.set(product, 0);
