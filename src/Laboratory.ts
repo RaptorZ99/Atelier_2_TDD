@@ -25,6 +25,9 @@ export class Laboratory {
     if (substance === "") {
       throw new Error('Invalid substance: ""');
     }
+    if (substance.trim() === "") {
+      throw new Error(`Invalid substance: "${substance}"`);
+    }
     if (!this.knownSubstances.has(substance)) {
       throw new Error(`Unknown substance: ${substance}`);
     }
